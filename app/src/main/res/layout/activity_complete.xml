@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_footer"
+    tools:context="com.example.biro.ptf.CompleteActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        >
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="140dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:elevation="4dp"
+            android:src="@drawable/user_pic"
+
+            app:civ_border_color="#ffff"
+            app:civ_border_width="2dp"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:drawableLeft="@drawable/user_icon"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif"
+
+            android:hint="@string/name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColorHint="@color/colorBackgroundDark"
+            android:textSize="16sp"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/editEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:drawableLeft="@drawable/email_icon"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColorHint="@color/colorBackgroundDark"
+            android:textSize="16sp"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/editGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:drawableLeft="@drawable/gender_icon"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/gender"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColorHint="@color/colorBackgroundDark"
+            android:textSize="16sp"
+            tools:targetApi="lollipop" />
+
+
+        <EditText
+            android:id="@+id/editBirthDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:drawableLeft="@drawable/cake"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/birthday"
+            android:inputType="numberPassword"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColorHint="@color/colorBackgroundDark"
+            android:textSize="16sp"
+            tools:targetApi="lollipop" />
+
+        <EditText
+            android:id="@+id/mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="@color/colorBackgroundDark"
+            android:drawableLeft="@drawable/phone_icon"
+            android:drawablePadding="8dp"
+            android:fontFamily="sans-serif"
+            android:hint="@string/mobilephone"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:textColorHint="@color/colorBackgroundDark"
+            android:textSize="16sp"
+            tools:targetApi="lollipop" />
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/complete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom"
+
+
+                android:background="@color/colorAccent"
+                android:elevation="4dp"
+                android:text="@string/completeprofile"
+                android:textAppearance="@style/TextAppearance.AppCompat.Button"
+                android:textColor="@color/background"
+                tools:targetApi="lollipop" />
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</FrameLayout>

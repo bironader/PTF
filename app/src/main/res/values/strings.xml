@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">PTF</string>
+    <string name="app_id">805366856285133</string>
+    <string name="welcome_to_ptf_app_sign_in_now">Welcome to PTF app Sign in now</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+
+    <string name="mobilephone">MobilePhone</string>
+    <string name="comp">Continue</string>
+    <string name="birthday">Birthday</string>
+    <string name="gender">gender</string>
+    <string name="completeprofile">Complete Profile</string>
+</resources>
