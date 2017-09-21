@@ -10,4 +10,15 @@
     <string name="birthday">Birthday</string>
     <string name="gender">gender</string>
     <string name="completeprofile">Complete Profile</string>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <string name="progress">Loading. Please wait...</string>
+    <string name="mobile">Mobile</string>
+    <string name="mobileError">Wrong Mobile Number</string>
+    <string name="wrongName">Wrong Name</string>
+    <string name="registerError">user is already registered</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="serverFacebookError">Try Again Later</string>
 </resources>

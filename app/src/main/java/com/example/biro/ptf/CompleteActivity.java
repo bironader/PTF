@@ -1,16 +1,14 @@
 package com.example.biro.ptf;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.biro.ptf.Contract.Constants;
 import com.example.biro.ptf.Models.User;
-import com.example.biro.ptf.Network.FacebookApi;
-import com.example.biro.ptf.Network.Requests;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -29,6 +27,8 @@ public class CompleteActivity extends AppCompatActivity {
     EditText gender;
     @BindView(R.id.editBirthDate)
     EditText birthdate;
+    @BindView(R.id.mobile)
+    EditText mobile;
     @BindView(R.id.complete)
     Button complete;
 
@@ -42,6 +42,7 @@ public class CompleteActivity extends AppCompatActivity {
         email.setText(" " + currentUser.getEmail());
         name.setText(" " + currentUser.getFull_name());
         gender.setText(" "+ currentUser.getGender());
+        mobile.setText(" "+currentUser.getMobilePhone());
 
         Picasso.with(this).load(currentUser.getProfile_pic_url()).into(profileImage);
         complete.setOnClickListener(new View.OnClickListener() {

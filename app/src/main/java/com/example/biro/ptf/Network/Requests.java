@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.biro.ptf.R;
 import com.example.biro.ptf.Utils.ApplicationController;
 
 import org.json.JSONException;
@@ -57,15 +58,13 @@ public class Requests {
         return params;
     }
 
-
-    public void getRequest(String url, final String[] keys, final String[] values, final VolleyCallback callback) {
-
-        JsonObjectRequest getReq = new JsonObjectRequest(Request.Method.GET,url,null,new Response.Listener<JSONObject>() {
+    public void getRequest(String url, final VolleyCallback callback) {
+        JsonObjectRequest getReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("response", response.toString());
+
 
                 try {
                     callback.onSuccess(response);
@@ -75,6 +74,38 @@ public class Requests {
 
             }
 
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse.statusCode == 400)
+                    callback.onError(context.getString(R.string.registerError));
+
+
+            }
+
+        });
+
+        ApplicationController.getInstance().addToRequestQueue(getReq);
+    }
+
+    public void getRequestWithHeader(String url, final String[] keys, final String[] values, final VolleyCallback callback) {
+
+        JsonObjectRequest getReq = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+
+                try {
+                    callback.onSuccess(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
 
 
         }, new Response.ErrorListener() {
@@ -86,15 +117,14 @@ public class Requests {
 
                 //get response body and parse with appropriate encoding
                 try {
-                    body = new String(error.networkResponse.data,"UTF-8");
-                    Toast.makeText(context,body,Toast.LENGTH_LONG).show();
+                    body = new String(error.networkResponse.data, "UTF-8");
+                    Toast.makeText(context, body, Toast.LENGTH_LONG).show();
                 } catch (UnsupportedEncodingException e) {
                     // exception
                 }
             }
 
-        })
-        {
+        }) {
 
             @Override
             public HashMap<String, String> getHeaders() throws AuthFailureError {
@@ -104,13 +134,6 @@ public class Requests {
         };
 
         ApplicationController.getInstance().addToRequestQueue(getReq);
-        try {
-          Log.d("header",getReq.getHeaders().toString());
-
-        } catch (AuthFailureError authFailureError) {
-            authFailureError.printStackTrace();
-        }
-
 
 
     }
@@ -126,7 +149,7 @@ public class Requests {
 
                 try {
                     callback.onSuccess(response);
-                    Log.d("response",response.toString());
+                    Log.d("response", response.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -147,6 +170,8 @@ public class Requests {
 
     public interface VolleyCallback {
         void onSuccess(JSONObject result) throws JSONException;
+
+        void onError(String result);
     }
 
 }

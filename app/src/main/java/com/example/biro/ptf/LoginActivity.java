@@ -3,10 +3,10 @@ package com.example.biro.ptf;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.EditText;
 
 import com.example.biro.ptf.Network.FacebookApi;
-import com.example.biro.ptf.Utils.SessionManager;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
@@ -22,6 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     FacebookApi facebookApi;
     @BindView(R.id.login_button)
     LoginButton loginButton;
+    @BindView(R.id.mobile)
+    EditText editMobile;
+    @BindView(R.id.name)
+    EditText editName;
 
 
     @Override
@@ -32,38 +36,48 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
 
-
         facebookApi = FacebookApi.getInstance(this);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                String name = editName.getText().toString();
+                String mob = editMobile.getText().toString();
+                if (mob.isEmpty() || mob.length() != 11) {
 
-        facebookApi.login();
+                    editMobile.setError(getString(R.string.mobileError));
+
+                } else if (name.isEmpty())
+                    editName.setError(getString(R.string.wrongName));
+
+                else {
+                    facebookApi.register(name, mob);
+                    loginButton.registerCallback(FacebookApi.mCallbackManger, FacebookApi.facebookCallback);
+                }
+
+            }
+        });
 
         loginButton.setReadPermissions(Arrays.asList("email", "public_profile", "user_friends", "user_birthday"));
-        loginButton.registerCallback(FacebookApi.mCallbackManger, FacebookApi.facebookCallback);
 
 
     }
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        if (AccessToken.getCurrentAccessToken() != null)
-//        {
-//            LoginManager.getInstance().logOut();
-//        }
-////        if (!SessionManager.getInstance(this).getUserId().isEmpty())
-////        {
-////            if(SessionManager.getInstance(this).getProfileStatus())
-////            {
-////
-////            }
-////        }
-//
-//    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
+        }
+
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FacebookApi.mCallbackManger.onActivityResult(requestCode, resultCode, data);
     }
+
+
 }

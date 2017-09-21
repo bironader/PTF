@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 import com.example.biro.ptf.CompleteActivity;
 import com.example.biro.ptf.Contract.Constants;
+import com.example.biro.ptf.MainActivity;
 import com.example.biro.ptf.Models.User;
-import com.example.biro.ptf.Utils.SessionManager;
+import com.example.biro.ptf.R;
+import com.example.biro.ptf.Utils.Session;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -53,52 +55,52 @@ public class FacebookApi {
     }
 
 
-    public void login() {
+    public void register(final String name, final String mobile) {
 
+
+        dialog = ProgressDialog.show(context, "",
+                context.getString(R.string.progress), true);
         facebookCallback = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
 
-                final String[] Values = {Constants.ObtainAccessToken.providerParam,
-                        Constants.ObtainAccessToken.organizationCodeParm,
-                        loginResult.getAccessToken().getToken()};
-                Toast.makeText(context,loginResult.toString(),Toast.LENGTH_LONG).show();
-//
-                dialog = ProgressDialog.show(context, "",
-                        "Loading. Please wait...", true);
-                Requests.getInstance(context).postRequest(Constants.ObtainAccessToken.url, Constants.ObtainAccessToken.requestKeys, Values, new Requests.VolleyCallback() {
+                Toast.makeText(context, "hi", Toast.LENGTH_LONG).show();
+                final String url = Constants.Register.url + Constants.Register.parmKeyProvider + "="
+                        + Constants.Register.providerParam + "&"
+                        + Constants.Register.parmKeyOrganizationCode + "=" + Constants.Register.organizationCodeParm + "&"
+                        + Constants.Register.parmAccessToken + "=" + loginResult.getAccessToken().getToken() + "&"
+                        + Constants.Register.parmMobile + "=" + mobile + "&"
+                        + Constants.Register.parmName + "=" + name;
+
+                Log.d("url", "onSuccess: " + url);
+
+
+                Requests.getInstance(context).getRequest(url, new Requests.VolleyCallback() {
                     @Override
-                    public void onSuccess(JSONObject result) {
+                    public void onSuccess(JSONObject result) throws JSONException {
+                        Log.d("url", "onSuccess: " + url);
+                        Toast.makeText(context, result.toString(), Toast.LENGTH_LONG).show();
+                        String access_token = result.getString(Constants.accessToken);
+                        Session.getInstance(context).save(Constants.accessToken, access_token);
+                        String isUserApproved = result.getString(Constants.isUserApproved);
+                        Session.getInstance(context).save(Constants.isUserApproved, isUserApproved);
+                        newUser.setMobilePhone(mobile);
+                        dialog.dismiss();
+                        startCompleteActivity();
 
-                        Toast.makeText(context,result.toString(),Toast.LENGTH_LONG).show();
-//
-                        try {
-                            SessionManager.getInstance(context).createLoginSession(result.getString("access_token"));
-                            SessionManager.getInstance(context).getLoggedInUser(new SessionManager.CallBack() {
-                                @Override
-                                public void onSuccess(JSONObject result) throws JSONException {
+                    }
 
-                                    JSONObject chidObj = result.getJSONObject("result");
-                                    String status = chidObj.getString(Constants.userKeys.completeProfile);
-                                    if (status.equals("false")) {
-                                        startCompleteActivity();
-                                        SessionManager.getInstance(context).storeCompleteProfile(status);
-                                        dialog.dismiss();
-                                    }
-                                    else
-                                    {
-                                        Toast.makeText(context,"error",Toast.LENGTH_LONG).show();
-                                        dialog.dismiss();
-                                    }
+                    @Override
+                    public void onError(String result) {
+
+                        final String[] values = {Constants.ObtainAccessToken.providerParam,
+                                Constants.ObtainAccessToken.organizationCodeParm,
+                                loginResult.getAccessToken().getToken()};
 
 
-                                }
-                            });
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
+                        newUser.setMobilePhone(mobile);
+                        dialog.dismiss();
+                        login(values);
 
                     }
                 });
@@ -108,16 +110,60 @@ public class FacebookApi {
 
             @Override
             public void onCancel() {
-
+                Toast.makeText(context, "cancled", Toast.LENGTH_LONG).show();
             }
 
             @Override
             public void onError(FacebookException error) {
+                Toast.makeText(context, R.string.serverFacebookError, Toast.LENGTH_LONG).show();
+                Log.d("facebook server error", "onError: " + error.getMessage());
 
             }
         };
 
 
+    }
+
+    public void login(final String[] values) {
+
+        Requests.getInstance(context).postRequest(Constants.ObtainAccessToken.url, Constants.ObtainAccessToken.requestKeys, values, new Requests.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) throws JSONException {
+                String access_token = result.getString(Constants.accessToken);
+                Session.getInstance(context).save(Constants.accessToken, access_token);
+                getLoggedIn(new String[]{"Bearer " + Session.getInstance(context).load(Constants.accessToken)});
+            }
+
+            @Override
+            public void onError(String result) {
+
+            }
+        });
+    }
+
+    public void getLoggedIn(String[] values) {
+        Requests.getInstance(context).getRequestWithHeader(Constants.getLoggedUser.url, Constants.getLoggedUser.requestKeys, values, new Requests.VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) throws JSONException {
+
+                Log.d("logged in", "onSuccess: " + result);
+                JSONObject child = result.getJSONObject("result");
+
+
+                if (child.getBoolean("completeProfile"))
+                    context.startActivity(new Intent(context, MainActivity.class));
+
+                else
+                    startCompleteActivity();
+
+
+            }
+
+            @Override
+            public void onError(String result) {
+
+            }
+        });
     }
 
     public void startCompleteActivity() {

@@ -6,13 +6,32 @@ package com.example.biro.ptf.Contract;
 
 public class Constants {
 
-    public static final class ObtainAccessToken {
-        public static final String url = "http://mkarim-001-site1.etempurl.com/api/accounts/ObtainLocalAccessToken";
+    public static final String accessToken = "access_token";
+    public static final String isUserApproved = "AppIsUserApproved";
+
+    public static final class Register{
+
+        public static final String url = "http://mkarim-001-site1.etempurl.com/api/accounts/Register?";
+        public static final String parmKeyProvider = "provider";
+        public static final String parmKeyOrganizationCode = "organizationCode";
+        public static final String parmAccessToken = "externalAccessToken";
+        public static final String parmMobile = "mobile";
+        public static final String parmName = "name";
+        public static final String organizationCodeParm = "PTF";
         public static final String providerParam = "facebook";
+
+
+    }
+    public static final class ObtainAccessToken {
+
+
+        public static final String url = "http://mkarim-001-site1.etempurl.com/api/accounts/ObtainLocalAccessToken";
         public static final String providerKey = "provider";
         public static final String organizationCodeParm = "PTF";
         public static final String organizationCodeKey = "organizationCode";
         public static final String externalAccessTokenKey = "externalAccessToken";
+        public static final String providerParam = "facebook";
+
         public static final String[] requestKeys = {providerKey, organizationCodeKey, externalAccessTokenKey};
 
 
@@ -44,5 +63,10 @@ public class Constants {
     public static final class getLoggedUser{
         public static final String url = "http://mkarim-001-site1.etempurl.com/api/Users/GetLoggedInUser";
             public static final String []requestKeys={"Authorization"};
+    }
+    public static final class getMeeting{
+        public static final String url = "http://mkarim-001-site1.etempurl.com/api/meetings/Get";
+        public static final String []requestKeys={"Authorization"};
+
     }
 }

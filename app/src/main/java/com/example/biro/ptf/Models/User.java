@@ -10,7 +10,6 @@ import android.os.Parcelable;
 public class User implements Parcelable {
 
     private String full_name;
-
     private String id;
     private String profile_link;
 
